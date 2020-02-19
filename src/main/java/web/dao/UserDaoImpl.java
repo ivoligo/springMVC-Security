@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao{
     public User findUserById(Long id) {
 //        return (User) sessionFactory.getCurrentSession().createQuery("from User where id = '" + id + "' ").uniqueResult();
     User user = (User) sessionFactory.getCurrentSession().createQuery(
-            "select user from User user"
+            "select user from User user "
             + "join fetch user.roleSet"
             + " where user.id = :id").setParameter("id", id);
     return user;

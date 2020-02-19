@@ -58,7 +58,6 @@ public class UserController {
                     || role.getRolesName().equals("user")
                     || role.getRolesName().equals("webUser")
                     || role.getRolesName().equals("otherUser")){
-
                 user.addRole(role);
             }
             return "redirect:/list";

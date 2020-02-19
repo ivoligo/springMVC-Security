@@ -32,7 +32,7 @@ public class User  {
     @Column(name = "age")
     private Integer age;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST})
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name ="user_and_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
