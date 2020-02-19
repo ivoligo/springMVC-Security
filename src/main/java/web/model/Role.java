@@ -16,7 +16,7 @@ public class Role {
     @Column(name = "rolesName")
     private String rolesName;
 
-    @ManyToMany(mappedBy = "roleSet")
+    @ManyToMany(mappedBy = "roleSet", cascade = CascadeType.PERSIST)
 //    @JoinTable(name = "user_and_role",
 //            joinColumns = @JoinColumn(name = "role_id"),
 //    inverseJoinColumns = @JoinColumn(name="user_id"))

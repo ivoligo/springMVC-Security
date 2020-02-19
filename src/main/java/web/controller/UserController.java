@@ -35,7 +35,7 @@ public class UserController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String allUsers(Model model){
         List<User> listUsers = userService.getAllUser();
-        List<User> listUsers1 = userService.getAllUsersWithRole();
+//        List<User> listUsers1 = userService.getAllUsersWithRole();
         model.addAttribute("users", listUsers);
 
         return "list";
@@ -51,15 +51,15 @@ public class UserController {
                     User user,
             @ModelAttribute("role") Role role
     ){
-
+        if (role.getRolesName().equals("admin")
+                || role.getRolesName().equals("user")
+                || role.getRolesName().equals("webUser")
+                || role.getRolesName().equals("otherUser")){
+            user.addRole(role);
+        }
         if (userService.findUserByEmail(user.getEmail()) == null){
             userService.create(user);
-            if (role.getRolesName().equals("admin")
-                    || role.getRolesName().equals("user")
-                    || role.getRolesName().equals("webUser")
-                    || role.getRolesName().equals("otherUser")){
-                user.addRole(role);
-            }
+
             return "redirect:/list";
         } else {
             return "/userExists";
