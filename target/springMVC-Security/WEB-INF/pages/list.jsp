@@ -27,7 +27,11 @@
                 <td>${user.surname}</td>
                 <td>${user.city}</td>
                 <td>${user.age}</td>
-                <td>${user.roleSet}</td>
+                <td>
+                        <c:forEach items = "${user.roleSet}" var = "role">
+                            ${role.rolesName}
+                        </c:forEach>
+                </td>
                 <td>
                     <form action="/edit/${user.id}" method="get">
                         <input type="submit" value="изменить">

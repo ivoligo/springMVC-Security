@@ -16,11 +16,11 @@ public class Role {
     @Column(name = "rolesName")
     private String rolesName;
 
-    @ManyToMany(mappedBy = "roleSet", cascade = CascadeType.PERSIST)
+//    @ManyToMany(mappedBy = "roleSet", cascade = CascadeType.MERGE)
 //    @JoinTable(name = "user_and_role",
 //            joinColumns = @JoinColumn(name = "role_id"),
 //    inverseJoinColumns = @JoinColumn(name="user_id"))
-    private Set<User> userSet = new HashSet<>();
+//    private Set<User> userSet = new HashSet<>();
 
     public Role(){
     }
@@ -45,12 +45,12 @@ public class Role {
     }
 
 
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
+//    public Set<User> getUserSet() {
+//        return userSet;
+//    }
+//
+//    public void setUserSet(Set<User> userSet) {
+//        this.userSet = userSet;
+//    }
 
 }

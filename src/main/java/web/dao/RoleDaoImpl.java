@@ -26,4 +26,9 @@ public class RoleDaoImpl implements RoleDao {
         sessionFactory.getCurrentSession().save(role);
     }
 
+    @Override
+    public Role findRoleByName(String name) {
+        return (Role) sessionFactory.getCurrentSession().createQuery("from Role where rolesName = '" + name + "' ").uniqueResult();
+    }
+
 }

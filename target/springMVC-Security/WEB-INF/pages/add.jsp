@@ -16,13 +16,13 @@
         <input required type="text" name="city" placeholder="город">
         <input required type="number" name="age" placeholder="возраст">
             <br>
-<%--       <select name = "roleSet">--%>
-<%--            <option value="user">user</option>--%>
-<%--            <option value="admin">admin</option>--%>
-<%--            <option value="otherUser">otherUser</option>--%>
-<%--           <option value="webUser">webUser</option>--%>
-<%--        </select>--%>
-       <input required type="text" name="rolesName" placeholder="Роль">
+       <select name = "roleSet">
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+            <option value="otherUser">otherUser</option>
+           <option value="webUser">webUser</option>
+        </select>
+<%--       <input required type="text" name="rolesName" placeholder="Роль">--%>
         <br>
       <input type="submit" value="Сохранить">
     </form>

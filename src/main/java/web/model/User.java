@@ -1,6 +1,7 @@
 package web.model;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,30 +34,31 @@ public class User  {
     private Integer age;
 
 //    { CascadeType.PERSIST, CascadeType.MERGE}
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name ="user_and_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-    private Set<Role> roleSet = new HashSet<>();
-//    private Set<Role> roleSet;
+//    private Set<Role> roleSet = new HashSet<>();
+    private Set<Role> roleSet;
 
     public User(){
     }
-    public User( String name, String surname, String email, String password, String city, Integer age){
-//            , Set<Role> roleSet) {
-        //Set<Role> roleSet)
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.city = city;
-        this.age = age;
-        roleSet = new HashSet<>();
-//        this.role = role;
+
+//    public User(Long id, String name, String surname, String email, String password, String city, Integer age, Set<Role> roleSet) {
+//        this.id = id;
+//        this.name = name;
+//        this.surname = surname;
+//        this.email = email;
+//        this.password = password;
+//        this.city = city;
+//        this.age = age;
 //        this.roleSet = roleSet;
-//        this.roleSet = getRoleSet();
-//       this.roleSet = roleSet = new HashSet<>();
-    }
+//    }
+//
+//    public User(Long id, String name, String surname, String email, String password, String city, Integer age, String rolesName){
+//
+//    }
+
 
     public Long getId() {
         return id;
@@ -120,10 +122,10 @@ public class User  {
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
     }
-    public void addRole(Role role){
-//        roleSet.setUserSet(this);
-        roleSet.add(role);
-    }
+//    public void addRole(Role role){
+////        roleSet.setUserSet(this);
+//        roleSet.add(role);
+//    }
 //    public void removeRole(Role role){
 //        roleSet.remove(role);
 //    }

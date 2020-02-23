@@ -30,15 +30,15 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User create(User user) {
+    @Transactional
+    public void create(User user) {
         sessionFactory.getCurrentSession().save(user);
-        return user;
+//        return user;
     }
 
     @Override
-    public User update(User user) {
+    public void update(User user) {
         sessionFactory.getCurrentSession().update(user);
-        return user;
     }
 
     @Override

@@ -7,8 +7,8 @@ import java.util.List;
 public interface UserDao {
     List<User> getAllUsers();
     List<User> getAllUsersWithRole();
-    User create(User user);
-    User update(User user);
+    void create(User user);
+    void update(User user);
     void delete(User user);
 
     User findUserByEmail(String email);

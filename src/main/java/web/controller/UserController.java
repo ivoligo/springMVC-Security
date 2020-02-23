@@ -3,10 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
@@ -46,25 +43,20 @@ public class UserController {
         return "/add";
     }
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String addUser(
-            @ModelAttribute("user")
-                    User user,
-            @ModelAttribute("role") Role role
+    public String addUser( @ModelAttribute("user") User user,
+                           @RequestParam(value = "roleSet") String rolesName
     ){
-        if (role.getRolesName().equals("admin")
-                || role.getRolesName().equals("user")
-                || role.getRolesName().equals("webUser")
-                || role.getRolesName().equals("otherUser")){
-            user.addRole(role);
-        }
+
+        Role role1 = roleService.findRoleByName(rolesName);
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(role1);
+        user.setRoleSet(roleSet);
         if (userService.findUserByEmail(user.getEmail()) == null){
             userService.create(user);
-
             return "redirect:/list";
         } else {
             return "/userExists";
         }
-
     }
 
     @RequestMapping(value = "/edit/{id}",  method = RequestMethod.GET)
