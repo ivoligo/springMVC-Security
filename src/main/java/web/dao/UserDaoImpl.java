@@ -19,10 +19,11 @@ public class UserDaoImpl implements UserDao{
     public List<User> getAllUsers() {
         TypedQuery<User> query= sessionFactory.getCurrentSession().createQuery("from User");
         return query.getResultList();
+
     }
 
     @Override
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
     public List<User> getAllUsersWithRole() {
         TypedQuery<User> query= sessionFactory.getCurrentSession().createQuery("select user from User user" + " join fetch user.roleSet ");
@@ -32,13 +33,14 @@ public class UserDaoImpl implements UserDao{
     @Override
     @Transactional
     public void create(User user) {
-        sessionFactory.getCurrentSession().save(user);
-//        return user;
+        sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
     @Override
+    @Transactional
     public void update(User user) {
-        sessionFactory.getCurrentSession().update(user);
+        sessionFactory.getCurrentSession().saveOrUpdate(user);
+//            sessionFactory.getCurrentSession().persist(user);
     }
 
     @Override
@@ -59,6 +61,13 @@ public class UserDaoImpl implements UserDao{
 //            + "join fetch user.roleSet"
 //            + " where user.id = :id").setParameter("id", id);
 //    return user;
+    }
+
+    @Override
+    @Transactional
+    public User findByUsername(String username) {
+        return (User) sessionFactory.getCurrentSession().createQuery("from User where email = '" + username + "' ").uniqueResult();
+//        return null;
     }
 
     @Override

@@ -1,12 +1,14 @@
 package web.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @Column(name = "role_id")
@@ -42,6 +44,11 @@ public class Role {
 
     public void setRolesName(String rolesName) {
         this.rolesName = rolesName;
+    }
+
+    @Override
+    public String getAuthority() {
+        return getRolesName();
     }
 
 

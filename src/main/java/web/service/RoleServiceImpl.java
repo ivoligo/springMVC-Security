@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleDao;
 import web.model.Role;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -35,9 +35,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
     public Role findRoleByName(String name) {
-        return roleDao.findRoleByName(name);
+                return roleDao.findRoleByName(name);
+    }
+
+    @Override
+    @Transactional
+    public List<Role> findRoleListByName(List<String> name) {
+        return roleDao.findRoleListByName(name);
     }
 
 

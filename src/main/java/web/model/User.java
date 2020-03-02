@@ -1,7 +1,12 @@
 package web.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -9,7 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 //@Access(AccessType.FIELD)
-public class User  {
+public class User  implements UserDetails {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +39,7 @@ public class User  {
     private Integer age;
 
 //    { CascadeType.PERSIST, CascadeType.MERGE}
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {  CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(name ="user_and_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
@@ -43,22 +48,6 @@ public class User  {
 
     public User(){
     }
-
-//    public User(Long id, String name, String surname, String email, String password, String city, Integer age, Set<Role> roleSet) {
-//        this.id = id;
-//        this.name = name;
-//        this.surname = surname;
-//        this.email = email;
-//        this.password = password;
-//        this.city = city;
-//        this.age = age;
-//        this.roleSet = roleSet;
-//    }
-//
-//    public User(Long id, String name, String surname, String email, String password, String city, Integer age, String rolesName){
-//
-//    }
-
 
     public Long getId() {
         return id;
@@ -92,8 +81,43 @@ public class User  {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> grantedAuthoritySet = new HashSet<>();
+        for (Role role : getRoleSet()) {
+            grantedAuthoritySet.add(new SimpleGrantedAuthority("ROLE_" + role.getRolesName()));
+//            grantedAuthoritySet.add(new SimpleGrantedAuthority(role.getRolesName()));
+        }
+        return grantedAuthoritySet;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -122,10 +146,10 @@ public class User  {
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
     }
-//    public void addRole(Role role){
-////        roleSet.setUserSet(this);
-//        roleSet.add(role);
-//    }
+    public void addRole(Role role){
+//        roleSet.setUserSet(this);
+        roleSet.add(role);
+    }
 //    public void removeRole(Role role){
 //        roleSet.remove(role);
 //    }
@@ -175,5 +199,7 @@ public class User  {
                 ", roleSet=" + roleSet +
                 '}';
     }
+
+
 
 }
